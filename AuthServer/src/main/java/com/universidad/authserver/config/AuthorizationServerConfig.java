@@ -206,7 +206,7 @@ public class AuthorizationServerConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/oauth2/**", "/actuator/health", "/login").permitAll()
+                        .requestMatchers("/oauth2/**", "/.well-known/**", "/actuator/health", "/login").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login"));
