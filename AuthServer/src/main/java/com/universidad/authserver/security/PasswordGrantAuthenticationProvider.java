@@ -75,9 +75,17 @@ public class PasswordGrantAuthenticationProvider implements AuthenticationProvid
         OAuth2PasswordGrantAuthenticationToken token =
                 (OAuth2PasswordGrantAuthenticationToken) authentication;
         Map<String, Object> params = token.getAdditionalParameters();
+        Authentication clientPrincipal = token.getPrincipal() instanceof Authentication
+                ? (Authentication) token.getPrincipal()
+                : null;
 
-        String clientId = asString(params.get("client_id"));
+        String clientId = clientPrincipal != null
+                ? clientPrincipal.getName()
+                : asString(params.get("client_id"));
         String clientSecret = asString(params.get("client_secret"));
+        if (clientSecret == null && clientPrincipal != null) {
+            clientSecret = asString(clientPrincipal.getCredentials());
+        }
         String username = asString(params.get("username"));
         String password = asString(params.get("password"));
         String scope = asString(params.get("scope"));
