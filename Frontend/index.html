@@ -89,6 +89,7 @@
       <pre id="tokenPayload"></pre>
     </details>
     <div class="row">
+      <button class="secondary" id="toggleToken" type="button">Mostrar token</button>
       <button class="secondary" id="logoutBtn" type="button">Cerrar sesión (borrar token)</button>
     </div>
   </section>
@@ -114,9 +115,9 @@
    Cambia solo estos valores cuando los demás terminen su fase. */
 const CONFIG = {
   // Ahora: AuthServer directo.  Después (Fase 4): usar el Gateway, ej. "http://localhost:8083"
-  AUTH_URL: "http://localhost:9000",
+  AUTH_URL: "http://localhost:8080",
   // Gateway (ver server.port en Gateway/src/main/resources/application.yml)
-  API_URL: "http://localhost:8083",
+  API_URL: "http://localhost:8080",
   CLIENT_ID: "frontend",
   CLIENT_SECRET: "frontend-secret",
   SCOPE: "read"
@@ -144,6 +145,10 @@ function showMsg(el, text, kind) {
 function hideMsg(el) { el.className = "msg"; el.textContent = ""; }
 
 /* ================= SESIÓN ================= */
+let tokenVisible = false;
+function maskToken(t) { return t.slice(0, 10) + "••••••••••••••••••••••••••••••  (token oculto)"; }
+$("toggleToken").addEventListener("click", () => { tokenVisible = !tokenVisible; refreshSessionUI(); });
+
 function refreshSessionUI() {
   const token = getToken();
   const pill = $("sessionPill");
@@ -155,7 +160,8 @@ function refreshSessionUI() {
   const payload = decodeJwt(token);
   pill.textContent = "Sesión activa"; pill.className = "pill on";
   $("tokenCard").classList.remove("hidden");
-  $("tokenBox").value = token;
+  $("tokenBox").value = tokenVisible ? token : maskToken(token);
+  $("toggleToken").textContent = tokenVisible ? "Ocultar token" : "Mostrar token";
   $("tokenPayload").textContent = payload ? JSON.stringify(payload, null, 2) : "(no se pudo decodificar)";
   if (payload && payload.exp) {
     const exp = new Date(payload.exp * 1000);
@@ -203,6 +209,7 @@ $("loginForm").addEventListener("submit", async (ev) => {
 
 $("logoutBtn").addEventListener("click", () => {
   clearToken();
+  tokenVisible = false;
   refreshSessionUI();
   hideMsg($("loginMsg"));
   $("results").innerHTML = "";
