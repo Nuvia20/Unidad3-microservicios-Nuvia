@@ -1,5 +1,5 @@
 server:
-  port: 8083
+  port: 8080
 
 eureka:
   client:
@@ -14,11 +14,17 @@ spring:
       server:
         webmvc:
           routes:
+            - id: auth-server
+              uri: lb://AUTH-SERVER
+              predicates:
+                - Path=/oauth2/**
+
             - id: MS-A
               uri: lb://MS-A
               predicates:
                 - Path=/api/ENTITYA/**
+
             - id: MS-B
               uri: lb://MS-B
               predicates:
-               - Path=/api/ENTITYB/**
+                - Path=/api/ENTITYB/**
