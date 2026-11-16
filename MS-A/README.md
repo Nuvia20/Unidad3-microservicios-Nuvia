@@ -21,6 +21,9 @@ Proyecto sencillo de Java, Spring Boot, Spring Data JPA, H2 y Eureka.
 4. Comprobar que MS-A aparezca registrado en Eureka.
 5. Enviar peticiones desde Thunder Client o Postman.
 
+## Rutas de la API
+- `GET /api/ENTITYA` y `GET /api/ENTITYA/{id}` son las rutas que usa el **Gateway** (Fase 4) y las pruebas de la **Fase 2** (Nuvia). El controller también acepta `/api/entity-a` y `/api/a` por compatibilidad.
+
 ## URLs de pruebas (puerto 81)
 - API: `http://localhost:81/api/a`
 - Consola H2: `http://localhost:81/h2-console`

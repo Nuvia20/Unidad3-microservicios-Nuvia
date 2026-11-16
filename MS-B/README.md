@@ -8,6 +8,9 @@ Proyecto equivalente a MS-A. Cambios principales:
 - Base de datos H2: **msbDB**, URL `jdbc:h2:file:./data/msbDB`.
 - API: `http://localhost:82/api/b`.
 
+## Rutas de la API
+- `GET /api/ENTITYB` y `GET /api/ENTITYB/{id}` son las rutas que usa el **Gateway** (Fase 4). El controller también acepta `/api/entity-b` y `/api/b` por compatibilidad.
+
 ## Ejecución en Windows (PowerShell)
 
 1. Inicia Eureka Server (`http://localhost:8761`).

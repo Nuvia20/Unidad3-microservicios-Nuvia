@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping({"/api/entity-b", "/api/b"})
+@RequestMapping({"/api/entity-b", "/api/b", "/api/ENTITYB"}) // "/api/ENTITYB" coincide con la ruta del Gateway (Fase 4).
 public class EntityBController {
     private final EntityBService service;
     public EntityBController(EntityBService service) { this.service = service; }
